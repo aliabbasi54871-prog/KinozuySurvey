@@ -1,0 +1,272 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Encoding Safe Survey</title>
+  <style>
+    body{font-family:Segoe UI,Roboto,Arial,sans-serif;margin:0;background:#0b0c10;color:#e8ecf2}
+    .wrap{max-width:980px;margin:0 auto;padding:24px}
+    .card{background:#0b0c10 !important;border:1px solid #202430 !important;border-radius:14px !important;box-shadow:0 10px 30px rgba(0,0,0,.5) !important}
+    h1{margin:0 0 10px}
+    h2{margin:18px 0 10px}
+    p{line-height:1.6;color:#a6afbd}
+    .hr{height:1px;background:#202430;margin:18px 0}
+    .q{margin:12px 0;padding:12px;border:1px solid #202430;border-radius:10px;background:#121318 !important}
+    .q-title{font-weight:600;margin-bottom:8px;color:#e8ecf2}
+    label{display:block;margin:6px 0}
+    input[type=text], input[type=email], textarea{width:100%;background:#0e0f14;color:#e8ecf2;border:1px solid #202430;border-radius:10px;padding:10px 12px;outline:none}
+    textarea{min-height:80px;resize:vertical}
+    .scale{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+    .scale label{display:flex;align-items:center;justify-content:center;width:42px;height:42px;border:1px solid #202430;border-radius:10px;background:#0e0f14}
+    .actions{display:flex;gap:10px;margin-top:12px}
+    button{margin-top:12px;padding:10px 14px;border:0;border-radius:10px;background:#7bc9ff;color:#062031;font-weight:600;cursor:pointer}
+    .btn.alt{background:#1c2230;color:#cfd6e6;border:1px solid #202430}
+    .note{color:#a6afbd;font-size:14px}
+  html,body{height:100%}</style>
+<style>body{background-image:url("bg.png");background-repeat:repeat;background-position:top left;background-size:auto}html,body{height:100%}</style>`n<style>html,body{height:100%;margin:0}body{background:#000 url("bg.png") center center / cover no-repeat}</style>
+<style id="bg-override">
+html,body{height:100%;margin:0}
+body{background:#0b0c10 !important}
+body::before{content:"";position:fixed;inset:0;background:url("bg.png") top left / 512px 512px repeat;opacity:1;pointer-events:none;z-index:-1}
+.card{background:#0b0c10 !important;border:1px solid #202430 !important;border-radius:14px !important;box-shadow:0 10px 30px rgba(0,0,0,.5) !important}
+</style>
+<style id="panel-override">
+.card{position:relative !important;background:transparent !important}
+.card::before{content:"";position:absolute;inset:0;background:#0b0c10;border:1px solid #202430;border-radius:14px;z-index:-1;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+.q{background:#121318 !important}
+.hr{background:#202430}
+</style>
+<style id="final-dark-override">
+.wrap{background:transparent}
+.wrap .card{background:#0b0c10 !important;border:1px solid #202430 !important;box-shadow:0 10px 30px rgba(0,0,0,.55) !important}
+.wrap .card::before{content:none !important}
+.q{background:#121318 !important}
+.q .q-title, h1, h2, p{position:relative; z-index:1}
+</style>
+<style id="force-all-dark">
+.card{position:relative !important}
+.card::before{content:"";position:absolute;inset:0;background:#0b0c10 !important;border:1px solid #202430 !important;border-radius:14px !important;z-index:0}
+.card > *{position:relative; z-index:1}
+.q{background:#121318 !important;border-color:#202430 !important}
+.hr{background:#202430 !important}
+</style>
+<style id="wrap-dark">
+.wrap{background:#0b0c10 !important;border:1px solid #202430 !important;border-radius:14px !important;box-shadow:0 10px 30px rgba(0,0,0,.55) !important}
+.card{background:transparent !important;border:none !important;box-shadow:none !important}
+.q{background:#121318 !important;border-color:#202430 !important}
+.hr{background:#202430 !important}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class=\"card\" style=\"background:rgba(18,19,24,0.86);backdrop-filter:saturate(120%) blur(2px)\"\>      <h1 id=H></h1>
+      <p id=INTRO></p>
+      <div class=hr></div>
+      <div id=app></div>
+      <div class=actions>
+        <button id=send></button>
+        <button id=reset class="btn alt"></button>
+      </div>
+    </div>
+  </div>
+  <script>
+    const u = s=>s.replace(/\\u([0-9a-fA-F]{4})/g,(m,cp)=>String.fromCharCode(parseInt(cp,16)));
+    const STR = {
+      H:"\u0410\u041d\u041a\u0415\u0422\u0410",
+      INTRO:"\u0425\u043e\u0442\u0438\u043c \u0441\u0434\u0435\u043b\u0430\u0442\u044c \u00ab\u041a\u0438\u043d\u043e\u0436\u0443\u0439\u00bb \u0435\u0449\u0451 \u043a\u0440\u0443\u0447\u0435! \u041f\u043e\u0434\u0435\u043b\u0438\u0442\u0435\u0441\u044c \u043c\u043d\u0435\u043d\u0438\u0435\u043c \u2014 \u0432\u0441\u0435\u0433\u043e 3 \u043c\u0438\u043d\u0443\u0442\u044b \u0432\u0430\u0448\u0435\u0433\u043e \u0432\u0440\u0435\u043c\u0435\u043d\u0438.",
+      // Buttons
+      SEND:"\u041e\u0442\u043f\u0440\u0430\u0432\u0438\u0442\u044c (\u0434\u0435\u043c\u043e)", RESET:"\u0421\u0431\u0440\u043e\u0441\u0438\u0442\u044c",
+      // Blocks titles
+      B1:"\u0411\u043b\u043e\u043a 1. \u041e\u0431\u0449\u0438\u0435 \u0434\u0430\u043d\u043d\u044b\u0435",
+      B1_NOTE:"\u041f\u043e\u0436\u0430\u043b\u0443\u0439\u0441\u0442\u0430, \u0443\u043a\u0430\u0436\u0438\u0442\u0435 \u043e\u0441\u043d\u043e\u0432\u043d\u0443\u044e \u0438\u043d\u0444\u043e\u0440\u043c\u0430\u0446\u0438\u044e \u043e \u0441\u0435\u0431\u0435.",
+      Q1:"1. \u0423\u043a\u0430\u0436\u0438\u0442\u0435 \u0432\u0430\u0448 \u043f\u043e\u043b", male:"\u041c\u0443\u0436\u0441\u043a\u043e\u0439", female:"\u0416\u0435\u043d\u0441\u043a\u0438\u0439",
+      Q2:"2. \u0423\u043a\u0430\u0436\u0438\u0442\u0435 \u0412\u0430\u0448 \u0432\u043e\u0437\u0440\u0430\u0441\u0442",
+      Q2_OPT:["\u043c\u0435\u043d\u044c\u0448\u0435 18-\u0442\u0438","18-25 \u043b\u0435\u0442","26-35 \u043b\u0435\u0442","35-45 \u043b\u0435\u0442","45-60 \u043b\u0435\u0442","60+"],
+      Q3:"3. \u0421\u043c\u043e\u0442\u0440\u0435\u043b\u0438 \u043b\u0438 \u0432\u044b \u0444\u0438\u043b\u044c\u043c\u044b \u043d\u0430 \u043f\u043b\u0430\u0442\u0444\u043e\u0440\u043c\u0435 \u00ab\u041a\u0438\u043d\u043e\u0436\u0443\u0439\u00bb \u0437\u0430 \u043f\u043e\u0441\u043b\u0435\u0434\u043d\u0438\u0439 \u043c\u0435\u0441\u044f\u0446?", yes:"\u0414\u0430", no:"\u041d\u0435\u0442 (\u0435\u0441\u043b\u0438 \u00ab\u041d\u0435\u0442\u00bb \u2013 \u0437\u0430\u0432\u0435\u0440\u0448\u0438\u0442\u044c \u043e\u043f\u0440\u043e\u0441)",
+      // Block 2
+      B2:"\u0411\u043b\u043e\u043a 2. \u0421\u0442\u0430\u0431\u0438\u043b\u044c\u043d\u043e\u0441\u0442\u044c \u0438\u043d\u0442\u0435\u0440\u043d\u0435\u0442-\u0441\u043e\u0435\u0434\u0438\u043d\u0435\u043d\u0438\u044f (H1)",
+      B2_NOTE:"\u041f\u043e\u0436\u0430\u043b\u0443\u0439\u0441\u0442\u0430, \u043e\u0442\u0432\u0435\u0442\u044c\u0442\u0435 \u043d\u0430 \u0432\u043e\u043f\u0440\u043e\u0441\u044b \u043e \u0441\u0442\u0430\u0431\u0438\u043b\u044c\u043d\u043e\u0441\u0442\u0438 \u0432\u0430\u0448\u0435\u0433\u043e \u0438\u043d\u0442\u0435\u0440\u043d\u0435\u0442-\u0441\u043e\u0435\u0434\u0438\u043d\u0435\u043d\u0438\u044f",
+      Q4:"4. \u041a\u0430\u043a\u043e\u0439 \u043f\u043e\u0441\u043b\u0435\u0434\u043d\u0438\u0439 \u0444\u0438\u043b\u044c\u043c \u0432\u044b \u043d\u0430\u0447\u0430\u043b\u0438 \u0441\u043c\u043e\u0442\u0440\u0435\u0442\u044c \u043d\u0430 \u00ab\u041a\u0438\u043d\u043e\u0436\u0443\u0435\u00bb?", PH_MOVIE:"\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435 \u0444\u0438\u043b\u044c\u043c\u0430",
+      Q5:"5. \u0414\u043e\u0441\u043c\u043e\u0442\u0440\u0435\u043b\u0438 \u043b\u0438 \u0432\u044b \u044d\u0442\u043e\u0442 \u0444\u0438\u043b\u044c\u043c \u0434\u043e \u043a\u043e\u043d\u0446\u0430?",
+      Q6:"6. \u0411\u044b\u043b\u0438 \u043b\u0438 \u0437\u0430\u0432\u0438\u0441\u0430\u043d\u0438\u044f \u0438\u043b\u0438 \u043f\u0440\u0435\u0440\u044b\u0432\u0430\u043d\u0438\u044f \u0432\u0438\u0434\u0435\u043e \u0432 \u043f\u0440\u043e\u0446\u0435\u0441\u0441\u0435 \u043f\u0440\u043e\u0441\u043c\u043e\u0442\u0440\u0430?",
+      Q6_OPT:["\u041d\u0438 \u0440\u0430\u0437\u0443","1 \u0440\u0430\u0437","2-3 \u0440\u0430\u0437\u0430","4 \u0440\u0430\u0437\u0430 \u0438 \u0431\u043e\u043b\u0435\u0435"],
+      Q7:"7. \u041e\u0446\u0435\u043d\u0438\u0442\u0435 \u0441\u0442\u0430\u0431\u0438\u043b\u044c\u043d\u043e\u0441\u0442\u044c \u0432\u0430\u0448\u0435\u0433\u043e \u0438\u043d\u0442\u0435\u0440\u043d\u0435\u0442-\u0441\u043e\u0435\u0434\u0438\u043d\u0435\u043d\u0438\u044f",
+      Q7_OPT:["\u043d\u0438\u0437\u043a\u043e\u0435","\u0441\u0440\u0435\u0434\u043d\u0435\u0435","\u0432\u044b\u0441\u043e\u043a\u043e\u0435"],
+      // Block 3
+      B3:"\u0411\u043b\u043e\u043a 3. \u0412\u043b\u0438\u044f\u043d\u0438\u0435 \u0440\u0435\u043a\u043b\u0430\u043c\u044b (H2)",
+      Q8:"8. \u0414\u0435\u043c\u043e\u043d\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043b\u0430\u0441\u044c \u043b\u0438 \u0440\u0435\u043a\u043b\u0430\u043c\u0430 \u0432\u043e \u0432\u0440\u0435\u043c\u044f \u043f\u0440\u043e\u0441\u043c\u043e\u0442\u0440\u0430 \u044d\u0442\u043e\u0433\u043e \u0444\u0438\u043b\u044c\u043c\u0430?",
+      Q9:"9. \u041d\u0430\u0441\u043a\u043e\u043b\u044c\u043a\u043e \u0440\u0435\u043a\u043b\u0430\u043c\u0430 \u0440\u0430\u0437\u0434\u0440\u0430\u0436\u0430\u043b\u0430 \u0432\u0430\u0441 (1\u20135)?",
+      Q10:"10. \u0418\u0437-\u0437\u0430 \u0440\u0435\u043a\u043b\u0430\u043c\u044b \u0432\u044b",
+      Q10_OPT:["\u041f\u0440\u0435\u0440\u0432\u0430\u043b\u0438 \u043f\u0440\u043e\u0441\u043c\u043e\u0442\u0440","\u0421\u043c\u043e\u0442\u0440\u0435\u043b\u0438, \u043d\u043e \u0441 \u0440\u0430\u0437\u0434\u0440\u0430\u0436\u0435\u043d\u0438\u0435\u043c","\u041f\u043e\u0447\u0442\u0438 \u043d\u0435 \u043e\u0431\u0440\u0430\u0442\u0438\u043b\u0438 \u0432\u043d\u0438\u043c\u0430\u043d\u0438\u044f","\u0414\u0440\u0443\u0433\u043e\u0435:"],
+      // Block 4
+      B4:"\u0411\u043b\u043e\u043a 4. \u041d\u0430\u043b\u0438\u0447\u0438\u0435 \u043f\u043e\u0434\u043f\u0438\u0441\u043a\u0438 \u043d\u0430 \u043a\u043e\u043d\u043a\u0443\u0440\u0435\u043d\u0442\u043e\u0432 (H3)",
+      Q11:"11. \u0415\u0441\u0442\u044c \u043b\u0438 \u0443 \u0432\u0430\u0441 \u043f\u043b\u0430\u0442\u043d\u0430\u044f \u043f\u043e\u0434\u043f\u0438\u0441\u043a\u0430 \u043d\u0430 \u0434\u0440\u0443\u0433\u0438\u0435 \u043e\u043d\u043b\u0430\u0439\u043d-\u043a\u0438\u043d\u043e\u0442\u0435\u0430\u0442\u0440\u044b?",
+      Q12:"12. \u0415\u0441\u043b\u0438 \u0434\u0430, \u0442\u043e \u043d\u0430 \u043a\u0430\u043a\u0438\u0435 \u0441\u0435\u0440\u0432\u0438\u0441\u044b? (\u043d\u0435\u0441\u043a\u043e\u043b\u044c\u043a\u043e \u0432\u0430\u0440\u0438\u0430\u043d\u0442\u043e\u0432)",
+      SVC:["\u0424\u0438\u043b\u044c\u043c\u0431\u043e\u043a\u0441","\u0418\u0432\u0438","\u041a\u0438\u043d\u043e\u043f\u043e\u0438\u0441\u043a","Netflix"], OTHER:"\u0414\u0440\u0443\u0433\u043e\u0435:", OTHER_PH:"\u0423\u043a\u0430\u0436\u0438\u0442\u0435",
+      Q13:"13. \u041a\u0430\u043a\u0438\u0435 \u043f\u0440\u0435\u0438\u043c\u0443\u0449\u0435\u0441\u0442\u0432\u0430 \u0434\u0430\u043d\u043d\u044b\u0445 \u0441\u0435\u0440\u0432\u0438\u0441\u043e\u0432 \u0432\u044b \u0432\u0438\u0434\u0438\u0442\u0435",
+      Q13_PH:"\u041e\u043f\u0438\u0448\u0438\u0442\u0435 \u043f\u0440\u0435\u0438\u043c\u0443\u0449\u0435\u0441\u0442\u0432\u0430",
+      Q14:"14. \u041a\u0430\u043a \u0447\u0430\u0441\u0442\u043e \u0432\u044b \u0441\u043c\u043e\u0442\u0440\u0438\u0442\u0435 \u0444\u0438\u043b\u044c\u043c\u044b \u043d\u0430 \u041a\u0438\u043d\u043e\u0436\u0443\u0435 \u043f\u043e \u0441\u0440\u0430\u0432\u043d\u0435\u043d\u0438\u044e \u0441 \u0434\u0440\u0443\u0433\u0438\u043c\u0438 \u0441\u0435\u0440\u0432\u0438\u0441\u0430\u043c\u0438?",
+      FREQ:["\u041f\u043e\u0447\u0442\u0438 \u0432\u0441\u0435\u0433\u0434\u0430 \u0432\u044b\u0431\u0438\u0440\u0430\u044e \u041a\u0438\u043d\u043e\u0436\u0443\u0439","\u041f\u0440\u0438\u043c\u0435\u0440\u043d\u043e \u043f\u043e\u0440\u043e\u0432\u043d\u0443","\u0427\u0430\u0449\u0435 \u043d\u0430 \u0434\u0440\u0443\u0433\u0438\u0445 \u0441\u0435\u0440\u0432\u0438\u0441\u0430\u0445","\u0422\u0440\u0443\u0434\u043d\u043e \u0441\u043a\u0430\u0437\u0430\u0442\u044c"],
+      // Block 5
+      B5:"\u0411\u043b\u043e\u043a 5. \u0426\u0435\u043d\u043d\u043e\u0441\u0442\u043d\u044b\u0435 \u043f\u0440\u0438\u043e\u0440\u0438\u0442\u0435\u0442\u044b \u0437\u0440\u0438\u0442\u0435\u043b\u0435\u0439 (\u041d4)",
+      NOTE5:"\u041e\u0446\u0435\u043d\u0438\u0442\u0435 \u043f\u043e \u0448\u043a\u0430\u043b\u0435 1\u20135, \u0433\u0434\u0435 1 \u2013 \u0441\u043e\u0432\u0441\u0435\u043c \u043d\u0435 \u0441\u043e\u0433\u043b\u0430\u0441\u0435\u043d, 5 \u2013 \u043f\u043e\u043b\u043d\u043e\u0441\u0442\u044c\u044e \u0441\u043e\u0433\u043b\u0430\u0441\u0435\u043d",
+      ST:[
+        "\u041a\u043e\u0433\u0434\u0430 \u0432\u043e\u0437\u043d\u0438\u043a\u0430\u044e\u0442 \u0441\u043b\u043e\u0436\u043d\u043e\u0441\u0442\u0438, \u044f \u043f\u0440\u0435\u0434\u043f\u043e\u0447\u0438\u0442\u0430\u044e \u043f\u0440\u043e\u0432\u0435\u0440\u0435\u043d\u043d\u044b\u0435 \u0440\u0435\u0448\u0435\u043d\u0438\u044f",
+        "\u041c\u043d\u0435 \u0432\u0430\u0436\u043d\u044b \u0441\u0435\u043c\u0435\u0439\u043d\u044b\u0435 \u0441\u0432\u044f\u0437\u0438 \u0438 \u043f\u043e\u0434\u0434\u0435\u0440\u0436\u043a\u0430 \u0431\u043b\u0438\u0437\u043a\u0438\u0445",
+        "\u041c\u043d\u0435 \u0431\u043b\u0438\u0436\u0435 \u043f\u043e\u0441\u0442\u0435\u043f\u0435\u043d\u043d\u044b\u0435 \u0438\u0437\u043c\u0435\u043d\u0435\u043d\u0438\u044f, \u0430 \u043d\u0435 \u0440\u0435\u0437\u043a\u0438\u0435 \u043f\u0435\u0440\u0435\u043c\u0435\u043d\u044b",
+        "\u042f \u0441\u0447\u0438\u0442\u0430\u044e, \u0447\u0442\u043e \u043b\u044e\u0434\u044f\u043c \u043f\u043e\u043b\u0435\u0437\u043d\u043e \u0438\u043c\u0435\u0442\u044c \u043e\u0431\u0449\u0438\u0435 \u043f\u0440\u0430\u0432\u0438\u043b\u0430 \u0438 \u043e\u0440\u0438\u0435\u043d\u0442\u0438\u0440\u044b",
+        "\u0412 \u0432\u043e\u043f\u0440\u043e\u0441\u0430\u0445 \u043a\u0443\u043b\u044c\u0442\u0443\u0440\u044b \u0438 \u043d\u0440\u0430\u0432\u0441\u0442\u0432\u0435\u043d\u043d\u043e\u0441\u0442\u0438 \u0440\u0435\u0434\u043a\u043e \u0431\u044b\u0432\u0430\u0435\u0442 \u043e\u0434\u0438\u043d \u043f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u044b\u0439 \u043e\u0442\u0432\u0435\u0442",
+        "\u041c\u043d\u0435 \u043d\u0440\u0430\u0432\u0438\u0442\u0441\u044f, \u043a\u043e\u0433\u0434\u0430 \u044f \u043c\u043e\u0433\u0443 \u043f\u0440\u0438\u043d\u0438\u043c\u0430\u0442\u044c \u0440\u0435\u0448\u0435\u043d\u0438\u044f \u0441\u0430\u043c\u043e\u0441\u0442\u043e\u044f\u0442\u0435\u043b\u044c\u043d\u043e",
+        "\u0415\u0441\u043b\u0438 \u043f\u0440\u0430\u0432\u0438\u043b\u0430 \u0443\u0441\u0442\u0430\u0440\u0435\u043b\u0438, \u0438\u0445 \u043d\u0443\u0436\u043d\u043e \u043f\u0435\u0440\u0435\u0441\u043c\u0430\u0442\u0440\u0438\u0432\u0430\u0442\u044c",
+        "\u041c\u043d\u0435 \u0432\u0430\u0436\u043d\u043e \u043f\u0440\u043e\u0431\u043e\u0432\u0430\u0442\u044c \u043d\u043e\u0432\u043e\u0435 \u0438 \u0440\u0430\u0441\u0448\u0438\u0440\u044f\u0442\u044c \u043a\u0440\u0443\u0433\u043e\u0437\u043e\u0440",
+        "\u0414\u043b\u044f \u043c\u0435\u043d\u044f \u0432\u0430\u0436\u043d\u0435\u0435 \u0441\u0442\u0430\u0431\u0438\u043b\u044c\u043d\u043e\u0441\u0442\u044c, \u0447\u0435\u043c \u0440\u0438\u0441\u043a \u0440\u0430\u0434\u0438 \u043d\u043e\u0432\u044b\u0445 \u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e\u0441\u0442\u0435\u0439",
+        "\u041f\u0440\u0430\u043a\u0442\u0438\u0447\u043d\u044b\u0439 \u043f\u043e\u0434\u0445\u043e\u0434 \u043e\u0431\u044b\u0447\u043d\u043e \u043d\u0430\u0434\u0451\u0436\u043d\u0435\u0435 \u0442\u0432\u043e\u0440\u0447\u0435\u0441\u043a\u043e\u0433\u043e",
+        "\u0413\u043b\u0430\u0432\u043d\u043e\u0435 \u2014 \u0438\u043c\u0435\u0442\u044c \u0442\u0432\u0451\u0440\u0434\u044b\u0439 \u0444\u0443\u043d\u0434\u0430\u043c\u0435\u043d\u0442 \u0432 \u0436\u0438\u0437\u043d\u0438",
+        "\u041c\u043d\u0435 \u0432\u0430\u0436\u043d\u043e \u0447\u0443\u0432\u0441\u0442\u0432\u043e\u0432\u0430\u0442\u044c \u0441\u0432\u043e\u0431\u043e\u0434\u0443 \u0432\u044b\u0431\u043e\u0440\u0430",
+        "\u042f \u043f\u0440\u0435\u0434\u043f\u043e\u0447\u0438\u0442\u0430\u044e \u0438\u0441\u0442\u043e\u0440\u0438\u0438 \u043e \u0434\u043e\u043b\u0433\u0435, \u0441\u0435\u043c\u044c\u0435 \u0438 \u043f\u0440\u0435\u043e\u0434\u043e\u043b\u0435\u043d\u0438\u0438 \u0442\u0440\u0443\u0434\u043d\u043e\u0441\u0442\u0435\u0439",
+        "\u041c\u043d\u0435 \u0432\u0430\u0436\u043d\u043e \u0441\u043e\u0431\u043b\u044e\u0434\u0430\u0442\u044c \u043f\u0440\u0438\u0432\u044b\u0447\u043d\u044b\u0435 \u0442\u0440\u0430\u0434\u0438\u0446\u0438\u0438 \u0434\u0430\u0436\u0435 \u0432 \u043f\u043e\u0432\u0441\u0435\u0434\u043d\u0435\u0432\u043d\u043e\u0439 \u0436\u0438\u0437\u043d\u0438",
+        "\u042f \u0441\u0447\u0438\u0442\u0430\u044e \u0432\u0430\u0436\u043d\u044b\u043c \u043f\u043e\u043c\u043e\u0433\u0430\u0442\u044c \u0434\u0440\u0443\u0433\u0438\u043c, \u0434\u0430\u0436\u0435 \u0435\u0441\u043b\u0438 \u044d\u0442\u043e \u0442\u0440\u0435\u0431\u0443\u0435\u0442 \u043b\u0438\u0447\u043d\u044b\u0445 \u0436\u0435\u0440\u0442\u0432",
+        "\u042f \u043f\u0440\u0435\u0434\u043f\u043e\u0447\u0438\u0442\u0430\u044e \u043f\u0440\u0438\u043d\u0438\u043c\u0430\u0442\u044c \u0440\u0435\u0448\u0435\u043d\u0438\u044f \u043d\u0430 \u043e\u0441\u043d\u043e\u0432\u0435 \u0441\u043e\u0431\u0441\u0442\u0432\u0435\u043d\u043d\u043e\u0433\u043e \u043e\u043f\u044b\u0442\u0430, \u0430 \u043d\u0435 \u0441\u043e\u0432\u0435\u0442\u043e\u0432 \u043e\u043a\u0440\u0443\u0436\u0430\u044e\u0449\u0438\u0445",
+        "\u041c\u043d\u0435 \u0438\u043d\u0442\u0435\u0440\u0435\u0441\u043d\u044b \u0444\u0438\u043b\u044c\u043c\u044b, \u043a\u043e\u0442\u043e\u0440\u044b\u0435 \u043e\u0442\u0440\u0430\u0436\u0430\u044e\u0442 \u0441\u043e\u0432\u0440\u0435\u043c\u0435\u043d\u043d\u044b\u0435 \u043c\u0438\u0440\u043e\u0432\u044b\u0435 \u043f\u0440\u043e\u0431\u043b\u0435\u043c\u044b (\u044d\u043a\u043e\u043b\u043e\u0433\u0438\u044f, \u0440\u0430\u0432\u0435\u043d\u0441\u0442\u0432\u043e, \u0441\u0432\u043e\u0431\u043e\u0434\u0430 \u043b\u0438\u0447\u043d\u043e\u0441\u0442\u0438)",
+        "\u042f \u043b\u044e\u0431\u043b\u044e \u043a\u0438\u043d\u043e\u043c\u0430\u0442\u043e\u0433\u0440\u0430\u0444, \u043a\u043e\u0442\u043e\u0440\u044b\u0439 \u0437\u0430\u0441\u0442\u0430\u0432\u043b\u044f\u0435\u0442 \u0437\u0430\u0434\u0443\u043c\u0430\u0442\u044c\u0441\u044f",
+        "\u041c\u043d\u0435 \u043d\u0440\u0430\u0432\u044f\u0442\u0441\u044f \u0444\u0438\u043b\u044c\u043c\u044b, \u0432 \u043a\u043e\u0442\u043e\u0440\u044b\u0445 \u0440\u0435\u0436\u0451\u0441\u0441\u0451\u0440\u044b \u044d\u043a\u0441\u043f\u0435\u0440\u0438\u043c\u0435\u043d\u0442\u0438\u0440\u0443\u044e\u0442 \u0441 \u0444\u043e\u0440\u043c\u043e\u0439 \u0438 \u043f\u043e\u0434\u0430\u0447\u0435\u0439",
+        "\u041c\u043d\u0435 \u0438\u043d\u0442\u0435\u0440\u0435\u0441\u043d\u043e \u043f\u0440\u043e\u0431\u043e\u0432\u0430\u0442\u044c \u043d\u043e\u0432\u044b\u0435 \u0432\u0438\u0434\u044b \u0438\u0441\u043a\u0443\u0441\u0441\u0442\u0432\u0430 \u0438 \u043d\u0435\u043e\u0431\u044b\u0447\u043d\u044b\u0435 \u0436\u0430\u043d\u0440\u044b \u043a\u0438\u043d\u043e"
+      ],
+      // Block 6
+      B6:"\u0411\u043b\u043e\u043a 6. \u0420\u0435\u0437\u0443\u043b\u044c\u0442\u0430\u0442\u044b \u0430\u043d\u043a\u0435\u0442\u044b",
+      R_NOTE:"\u0421\u043f\u0430\u0441\u0438\u0431\u043e \u0437\u0430 \u0443\u0447\u0430\u0441\u0442\u0438\u0435! \u0412\u0430\u0448\u0438 \u043e\u0442\u0432\u0435\u0442\u044b \u043f\u043e\u043c\u043e\u0433\u0443\u0442 \u043d\u0430\u043c \u0441\u0434\u0435\u043b\u0430\u0442\u044c \u00ab\u041a\u0438\u043d\u043e\u0436\u0443\u0439\u00bb \u043b\u0443\u0447\u0448\u0435!",
+      R_Q:"\u0425\u043e\u0442\u0438\u0442\u0435 \u043f\u043e\u043b\u0443\u0447\u0438\u0442\u044c \u0440\u0435\u0437\u0443\u043b\u044c\u0442\u0430\u0442\u044b \u0438\u0441\u0441\u043b\u0435\u0434\u043e\u0432\u0430\u043d\u0438\u044f?",
+      R_OPT_Y:"\u0414\u0430, \u0445\u043e\u0447\u0443 \u2014 \u0443\u0437\u043d\u0430\u0439\u0442\u0435 \u0440\u0435\u0437\u0443\u043b\u044c\u0442\u0430\u0442 \u043f\u0440\u044f\u043c\u043e \u0441\u0435\u0439\u0447\u0430\u0441 \u0438\u043b\u0438 \u0443\u043a\u0430\u0436\u0438\u0442\u0435 e-mail (\u043d\u0435\u043e\u0431\u044f\u0437\u0430\u0442\u0435\u043b\u044c\u043d\u043e)",
+      R_EMAIL_PH:"\u0412\u0430\u0448 e-mail (\u043d\u0435\u043e\u0431\u044f\u0437\u0430\u0442\u0435\u043b\u044c\u043d\u043e)",
+      R_OPT_N:"\u041d\u0435\u0442, \u043f\u0440\u043e\u0441\u0442\u043e \u0437\u0430\u0432\u0435\u0440\u0448\u0443 \u043e\u043f\u0440\u043e\u0441"
+    };
+
+    function el(tag, props={}, ...children){ const e=document.createElement(tag); Object.assign(e, props); children.flat().forEach(c=>{ if(c==null) return; if(typeof c==='string') e.appendChild(document.createTextNode(c)); else e.appendChild(c); }); return e; }
+    function fieldset(title){ const fs=el('fieldset',{className:'q'}); fs.appendChild(el('div',{className:'q-title'}, title)); return fs; }
+    function radioGroup(name, options){ return options.map(([label,val])=> el('label',{}, el('input',{type:'radio',name,value:val}), ' '+label)); }
+    function checkboxGroup(name, options){ return options.map(([label,val])=> el('label',{}, el('input',{type:'checkbox',name,value:val}), ' '+label)); }
+    function scale(name){ const g=el('div',{className:'scale'}); for(let i=1;i<=5;i++){ g.appendChild(el('label',{}, el('input',{type:'radio',name,value:String(i)}), ' '+String(i))); } return g; }
+
+    function render(){
+      document.getElementById('H').textContent = u(STR.H);
+      document.getElementById('INTRO').textContent = u(STR.INTRO);
+      document.getElementById('send').textContent = u(STR.SEND);
+      document.getElementById('reset').textContent = u(STR.RESET);
+      const app = document.getElementById('app');
+      app.innerHTML='';
+
+      // Block 1
+      app.appendChild(el('h2',{}, u(STR.B1)));
+      app.appendChild(el('p',{className:'note'}, u(STR.B1_NOTE)));
+      let fs = fieldset(u(STR.Q1));
+      radioGroup('gender', [[u(STR.male),'male'],[u(STR.female),'female']]).forEach(l=>fs.appendChild(l));
+      app.appendChild(fs);
+
+      fs = fieldset(u(STR.Q2));
+      STR.Q2_OPT.forEach((t,i)=>fs.appendChild(el('label',{}, el('input',{type:'radio',name:'age',value:String(i)}),' '+u(t))));
+      app.appendChild(fs);
+
+      fs = fieldset(u(STR.Q3));
+      radioGroup('seenLastMonth', [[u(STR.yes),'yes'],[u(STR.no),'no']]).forEach(l=>fs.appendChild(l));
+      app.appendChild(fs);
+
+      app.appendChild(el('div',{className:'hr'}));
+
+      // Block 2
+      app.appendChild(el('h2',{}, u(STR.B2)));
+      app.appendChild(el('p',{className:'note'}, u(STR.B2_NOTE)));
+
+      let q = fieldset(u(STR.Q4));
+      q.appendChild(el('input',{type:'text',name:'lastMovie',placeholder:u(STR.PH_MOVIE)}));
+      app.appendChild(q);
+
+      fs = fieldset(u(STR.Q5));
+      radioGroup('finished', [[u(STR.yes),'yes'],[u(STR.no),'no']]).forEach(l=>fs.appendChild(l));
+      app.appendChild(fs);
+
+      fs = fieldset(u(STR.Q6));
+      STR.Q6_OPT.forEach((t,i)=>fs.appendChild(el('label',{}, el('input',{type:'radio',name:'lags',value:String(i)}),' '+u(t))));
+      app.appendChild(fs);
+
+      fs = fieldset(u(STR.Q7));
+      STR.Q7_OPT.forEach((t,i)=>fs.appendChild(el('label',{}, el('input',{type:'radio',name:'stability',value:String(i)}),' '+u(t))));
+      app.appendChild(fs);
+
+      app.appendChild(el('div',{className:'hr'}));
+
+      // Block 3
+      app.appendChild(el('h2',{}, u(STR.B3)));
+
+      fs = fieldset(u(STR.Q8));
+      radioGroup('ads', [[u(STR.yes),'yes'],[u(STR.no),'no'],[u('\\u041d\\u0435 \\u043f\\u043e\\u043c\\u043d\\u044e'),'na']]).forEach(l=>fs.appendChild(l));
+      app.appendChild(fs);
+
+      fs = fieldset(u(STR.Q9));
+      fs.appendChild(scale('adsAnnoy'));
+      app.appendChild(fs);
+
+      fs = fieldset(u(STR.Q10));
+      STR.Q10_OPT.forEach((t,i)=>{
+        const lb = el('label',{}); const r = el('input',{type:'radio',name:'adsImpact',value:String(i)}); lb.appendChild(r); lb.append(' '+u(t)); fs.appendChild(lb);
+      });
+      // other text
+      const lbOther = el('label',{});
+      lbOther.appendChild(el('input',{type:'radio',name:'adsImpact',value:'other'}));
+      lbOther.append(' '+u(STR.Q10_OPT[3])+' ');
+      lbOther.appendChild(el('input',{type:'text',name:'adsImpactOther',placeholder:u('\\u0423\\u0442\\u043e\\u0447\\u043d\\u0438\\u0442\\u0435')}));
+      fs.appendChild(lbOther);
+      app.appendChild(fs);
+
+      app.appendChild(el('div',{className:'hr'}));
+
+      // Block 4
+      app.appendChild(el('h2',{}, u(STR.B4)));
+
+      fs = fieldset(u(STR.Q11));
+      radioGroup('otherSubs', [[u(STR.yes),'yes'],[u(STR.no),'no']]).forEach(l=>fs.appendChild(l));
+      app.appendChild(fs);
+
+      fs = fieldset(u(STR.Q12));
+      checkboxGroup('svc', STR.SVC.map(t=>[u(t), u(t)])).forEach(l=>fs.appendChild(l));
+      const lbO = el('label',{}); lbO.append(u(STR.OTHER)+' '); lbO.appendChild(el('input',{type:'text',name:'svcOther',placeholder:u(STR.OTHER_PH)})); fs.appendChild(lbO);
+      app.appendChild(fs);
+
+      q = fieldset(u(STR.Q13));
+      q.appendChild(el('textarea',{name:'svcBenefits',placeholder:u(STR.Q13_PH)}));
+      app.appendChild(q);
+
+      fs = fieldset(u(STR.Q14));
+      STR.FREQ.forEach((t,i)=>fs.appendChild(el('label',{}, el('input',{type:'radio',name:'freq',value:String(i)}),' '+u(t))));
+      app.appendChild(fs);
+
+      app.appendChild(el('div',{className:'hr'}));
+
+      // Block 5 (values statements 1-20)
+      app.appendChild(el('h2',{}, u(STR.B5)));
+      app.appendChild(el('p',{className:'note'}, u(STR.NOTE5)));
+      STR.ST.forEach((st, idx)=>{
+        const f = fieldset(u(st)); f.appendChild(scale('v'+(idx+1))); app.appendChild(f);
+      });
+
+      app.appendChild(el('div',{className:'hr'}));
+
+      // Block 6
+      app.appendChild(el('h2',{}, u(STR.B6)));
+      app.appendChild(el('p',{className:'note'}, u(STR.R_NOTE)));
+      fs = fieldset(u(STR.R_Q));
+      const lY = el('label',{}); lY.appendChild(el('input',{type:'radio',name:'getResults',value:'yes'})); lY.append(' '+u(STR.R_OPT_Y)); fs.appendChild(lY);
+      fs.appendChild(el('div',{}, el('input',{type:'email',name:'email',placeholder:u(STR.R_EMAIL_PH)})));
+      const lN = el('label',{}); lN.appendChild(el('input',{type:'radio',name:'getResults',value:'no'})); lN.append(' '+u(STR.R_OPT_N)); fs.appendChild(lN);
+      app.appendChild(fs);
+
+      // Buttons
+      document.getElementById('send').onclick = ()=> alert(u('\u0421\u043f\u0430\u0441\u0438\u0431\u043e! \u042d\u0442\u043e \u0434\u0435\u043c\u043e: \u043e\u0442\u043f\u0440\u0430\u0432\u043a\u0430 \u0432\u044b\u043a\u043b\u044e\u0447\u0435\u043d\u0430.'));
+      document.getElementById('reset').onclick = ()=> location.reload();
+    }
+
+    render();
+  </script>
+</body>
+</html>
