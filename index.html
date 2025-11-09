@@ -108,9 +108,20 @@
     }
 
     label {
-      display: block;
+      display: flex;
+      align-items: center;
+      gap: 12px;
       margin: 8px 0;
+      padding: 10px 12px;
       color: #d5dae4;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      transition: background 0.15s ease, border 0.15s ease;
+    }
+
+    label:hover {
+      background: rgba(123, 201, 255, 0.08);
+      border: 1px solid rgba(123, 201, 255, 0.35);
     }
 
     input[type="text"],
@@ -139,19 +150,30 @@
     }
 
     .scale label {
-      width: 46px;
-      height: 46px;
-      border-radius: 10px;
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
       border: 1px solid var(--border);
       background: var(--bg-input);
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
+      gap: 4px;
       cursor: pointer;
     }
 
-    .scale input[type="radio"] {
-      margin-right: 6px;
+    .scale label input[type="radio"] {
+      margin: 0;
+    }
+
+    input[type="radio"],
+    input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      margin-right: 10px;
+      vertical-align: middle;
+      accent-color: var(--accent);
     }
 
     .actions {
@@ -183,21 +205,60 @@
     }
 
     @media (max-width: 640px) {
+      body {
+        font-size: 16px;
+      }
+
+      .wrap {
+        padding: 24px 16px 36px;
+      }
+
       .card {
-        padding: 28px 20px;
+        padding: 26px 18px;
+        border-radius: 14px;
+        box-shadow: 0 16px 38px rgba(0, 0, 0, 0.45);
       }
 
       h1 {
         font-size: 26px;
       }
 
+      h2 {
+        font-size: 22px;
+        margin: 26px 0 10px;
+      }
+
       fieldset.q {
-        padding: 16px 18px;
+        padding: 16px 16px;
+        margin-bottom: 14px;
       }
 
       .scale label {
-        width: 42px;
-        height: 42px;
+        width: 48px;
+        height: 48px;
+      }
+
+      label {
+        padding: 12px 10px;
+        font-size: 16px;
+      }
+
+      input[type="text"],
+      input[type="email"],
+      textarea {
+        font-size: 16px;
+        padding: 12px 14px;
+      }
+
+      .actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      button {
+        width: 100%;
+        font-size: 16px;
+        padding: 14px;
       }
     }
   </style>
