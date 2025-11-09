@@ -1,272 +1,539 @@
-﻿<!DOCTYPE html>
-<html>
+<!DOCTYPE html>
+<html lang="ru">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Encoding Safe Survey</title>
+  <title>Анкета «Киножуй»</title>
   <style>
-    body{font-family:Segoe UI,Roboto,Arial,sans-serif;margin:0;background:#0b0c10;color:#e8ecf2}
-    .wrap{max-width:980px;margin:0 auto;padding:24px}
-    .card{background:#0b0c10 !important;border:1px solid #202430 !important;border-radius:14px !important;box-shadow:0 10px 30px rgba(0,0,0,.5) !important}
-    h1{margin:0 0 10px}
-    h2{margin:18px 0 10px}
-    p{line-height:1.6;color:#a6afbd}
-    .hr{height:1px;background:#202430;margin:18px 0}
-    .q{margin:12px 0;padding:12px;border:1px solid #202430;border-radius:10px;background:#121318 !important}
-    .q-title{font-weight:600;margin-bottom:8px;color:#e8ecf2}
-    label{display:block;margin:6px 0}
-    input[type=text], input[type=email], textarea{width:100%;background:#0e0f14;color:#e8ecf2;border:1px solid #202430;border-radius:10px;padding:10px 12px;outline:none}
-    textarea{min-height:80px;resize:vertical}
-    .scale{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
-    .scale label{display:flex;align-items:center;justify-content:center;width:42px;height:42px;border:1px solid #202430;border-radius:10px;background:#0e0f14}
-    .actions{display:flex;gap:10px;margin-top:12px}
-    button{margin-top:12px;padding:10px 14px;border:0;border-radius:10px;background:#7bc9ff;color:#062031;font-weight:600;cursor:pointer}
-    .btn.alt{background:#1c2230;color:#cfd6e6;border:1px solid #202430}
-    .note{color:#a6afbd;font-size:14px}
-  html,body{height:100%}</style>
-<style>body{background-image:url("bg.png");background-repeat:repeat;background-position:top left;background-size:auto}html,body{height:100%}</style>`n<style>html,body{height:100%;margin:0}body{background:#000 url("bg.png") center center / cover no-repeat}</style>
-<style id="bg-override">
-html,body{height:100%;margin:0}
-body{background:#0b0c10 !important}
-body::before{content:"";position:fixed;inset:0;background:url("bg.png") top left / 512px 512px repeat;opacity:1;pointer-events:none;z-index:-1}
-.card{background:#0b0c10 !important;border:1px solid #202430 !important;border-radius:14px !important;box-shadow:0 10px 30px rgba(0,0,0,.5) !important}
-</style>
-<style id="panel-override">
-.card{position:relative !important;background:transparent !important}
-.card::before{content:"";position:absolute;inset:0;background:#0b0c10;border:1px solid #202430;border-radius:14px;z-index:-1;box-shadow:0 10px 30px rgba(0,0,0,.5)}
-.q{background:#121318 !important}
-.hr{background:#202430}
-</style>
-<style id="final-dark-override">
-.wrap{background:transparent}
-.wrap .card{background:#0b0c10 !important;border:1px solid #202430 !important;box-shadow:0 10px 30px rgba(0,0,0,.55) !important}
-.wrap .card::before{content:none !important}
-.q{background:#121318 !important}
-.q .q-title, h1, h2, p{position:relative; z-index:1}
-</style>
-<style id="force-all-dark">
-.card{position:relative !important}
-.card::before{content:"";position:absolute;inset:0;background:#0b0c10 !important;border:1px solid #202430 !important;border-radius:14px !important;z-index:0}
-.card > *{position:relative; z-index:1}
-.q{background:#121318 !important;border-color:#202430 !important}
-.hr{background:#202430 !important}
-</style>
-<style id="wrap-dark">
-.wrap{background:#0b0c10 !important;border:1px solid #202430 !important;border-radius:14px !important;box-shadow:0 10px 30px rgba(0,0,0,.55) !important}
-.card{background:transparent !important;border:none !important;box-shadow:none !important}
-.q{background:#121318 !important;border-color:#202430 !important}
-.hr{background:#202430 !important}
-</style>
+    :root {
+      color-scheme: dark;
+      --bg-primary: #0b0c10;
+      --bg-card: rgba(11, 12, 16, 0.92);
+      --bg-field: #121318;
+      --bg-input: #0e0f14;
+      --border: #202430;
+      --text-main: #f1f5ff;
+      --text-body: #c0c7d4;
+      --text-note: #9ea7b8;
+      --accent: #7bc9ff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Segoe UI", Roboto, Arial, sans-serif;
+      color: var(--text-main);
+      background: var(--bg-primary);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: url("bg.png") top left / 512px 512px repeat;
+      opacity: 0.95;
+      z-index: -1;
+    }
+
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 32px 24px 48px;
+    }
+
+    .card {
+      position: relative;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 36px 28px;
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5);
+      backdrop-filter: saturate(120%) blur(6px);
+    }
+
+    h1 {
+      margin: 0 0 16px;
+      font-size: 32px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin: 32px 0 12px;
+      font-size: 24px;
+    }
+
+    h3 {
+      margin: 24px 0 12px;
+      font-size: 19px;
+      color: var(--text-body);
+      text-transform: none;
+    }
+
+    p {
+      margin: 0 0 18px;
+      line-height: 1.6;
+      color: var(--text-body);
+    }
+
+    .note {
+      color: var(--text-note);
+      font-size: 15px;
+      margin-bottom: 20px;
+    }
+
+    .hr {
+      height: 1px;
+      background: var(--border);
+      margin: 32px 0;
+    }
+
+    fieldset.q {
+      border: none;
+      margin: 0 0 18px;
+      padding: 18px 22px;
+      border-radius: 12px;
+      background: var(--bg-field);
+    }
+
+    .q-title {
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--text-main);
+    }
+
+    label {
+      display: block;
+      margin: 8px 0;
+      color: #d5dae4;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    textarea {
+      width: 100%;
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--bg-input);
+      color: var(--text-main);
+      font-size: 15px;
+    }
+
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    .scale {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .scale label {
+      width: 46px;
+      height: 46px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--bg-input);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .scale input[type="radio"] {
+      margin-right: 6px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 36px;
+    }
+
+    button {
+      padding: 12px 18px;
+      border-radius: 10px;
+      border: 0;
+      font-weight: 600;
+      cursor: pointer;
+      background: var(--accent);
+      color: #062031;
+      transition: background 0.2s ease;
+    }
+
+    button:hover {
+      background: #8fdaff;
+    }
+
+    .btn.alt {
+      background: #1c2230;
+      color: #d5dae4;
+      border: 1px solid var(--border);
+    }
+
+    @media (max-width: 640px) {
+      .card {
+        padding: 28px 20px;
+      }
+
+      h1 {
+        font-size: 26px;
+      }
+
+      fieldset.q {
+        padding: 16px 18px;
+      }
+
+      .scale label {
+        width: 42px;
+        height: 42px;
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="wrap">
-    <div class=\"card\" style=\"background:rgba(18,19,24,0.86);backdrop-filter:saturate(120%) blur(2px)\"\>      <h1 id=H></h1>
-      <p id=INTRO></p>
-      <div class=hr></div>
-      <div id=app></div>
-      <div class=actions>
-        <button id=send></button>
-        <button id=reset class="btn alt"></button>
+    <div class="card">
+      <h1 id="H"></h1>
+      <p id="INTRO"></p>
+      <div class="hr"></div>
+      <div id="app"></div>
+      <div class="actions">
+        <button id="send"></button>
+        <button id="reset" class="btn alt"></button>
       </div>
     </div>
   </div>
   <script>
-    const u = s=>s.replace(/\\u([0-9a-fA-F]{4})/g,(m,cp)=>String.fromCharCode(parseInt(cp,16)));
     const STR = {
-      H:"\u0410\u041d\u041a\u0415\u0422\u0410",
-      INTRO:"\u0425\u043e\u0442\u0438\u043c \u0441\u0434\u0435\u043b\u0430\u0442\u044c \u00ab\u041a\u0438\u043d\u043e\u0436\u0443\u0439\u00bb \u0435\u0449\u0451 \u043a\u0440\u0443\u0447\u0435! \u041f\u043e\u0434\u0435\u043b\u0438\u0442\u0435\u0441\u044c \u043c\u043d\u0435\u043d\u0438\u0435\u043c \u2014 \u0432\u0441\u0435\u0433\u043e 3 \u043c\u0438\u043d\u0443\u0442\u044b \u0432\u0430\u0448\u0435\u0433\u043e \u0432\u0440\u0435\u043c\u0435\u043d\u0438.",
-      // Buttons
-      SEND:"\u041e\u0442\u043f\u0440\u0430\u0432\u0438\u0442\u044c (\u0434\u0435\u043c\u043e)", RESET:"\u0421\u0431\u0440\u043e\u0441\u0438\u0442\u044c",
-      // Blocks titles
-      B1:"\u0411\u043b\u043e\u043a 1. \u041e\u0431\u0449\u0438\u0435 \u0434\u0430\u043d\u043d\u044b\u0435",
-      B1_NOTE:"\u041f\u043e\u0436\u0430\u043b\u0443\u0439\u0441\u0442\u0430, \u0443\u043a\u0430\u0436\u0438\u0442\u0435 \u043e\u0441\u043d\u043e\u0432\u043d\u0443\u044e \u0438\u043d\u0444\u043e\u0440\u043c\u0430\u0446\u0438\u044e \u043e \u0441\u0435\u0431\u0435.",
-      Q1:"1. \u0423\u043a\u0430\u0436\u0438\u0442\u0435 \u0432\u0430\u0448 \u043f\u043e\u043b", male:"\u041c\u0443\u0436\u0441\u043a\u043e\u0439", female:"\u0416\u0435\u043d\u0441\u043a\u0438\u0439",
-      Q2:"2. \u0423\u043a\u0430\u0436\u0438\u0442\u0435 \u0412\u0430\u0448 \u0432\u043e\u0437\u0440\u0430\u0441\u0442",
-      Q2_OPT:["\u043c\u0435\u043d\u044c\u0448\u0435 18-\u0442\u0438","18-25 \u043b\u0435\u0442","26-35 \u043b\u0435\u0442","35-45 \u043b\u0435\u0442","45-60 \u043b\u0435\u0442","60+"],
-      Q3:"3. \u0421\u043c\u043e\u0442\u0440\u0435\u043b\u0438 \u043b\u0438 \u0432\u044b \u0444\u0438\u043b\u044c\u043c\u044b \u043d\u0430 \u043f\u043b\u0430\u0442\u0444\u043e\u0440\u043c\u0435 \u00ab\u041a\u0438\u043d\u043e\u0436\u0443\u0439\u00bb \u0437\u0430 \u043f\u043e\u0441\u043b\u0435\u0434\u043d\u0438\u0439 \u043c\u0435\u0441\u044f\u0446?", yes:"\u0414\u0430", no:"\u041d\u0435\u0442 (\u0435\u0441\u043b\u0438 \u00ab\u041d\u0435\u0442\u00bb \u2013 \u0437\u0430\u0432\u0435\u0440\u0448\u0438\u0442\u044c \u043e\u043f\u0440\u043e\u0441)",
-      // Block 2
-      B2:"\u0411\u043b\u043e\u043a 2. \u0421\u0442\u0430\u0431\u0438\u043b\u044c\u043d\u043e\u0441\u0442\u044c \u0438\u043d\u0442\u0435\u0440\u043d\u0435\u0442-\u0441\u043e\u0435\u0434\u0438\u043d\u0435\u043d\u0438\u044f (H1)",
-      B2_NOTE:"\u041f\u043e\u0436\u0430\u043b\u0443\u0439\u0441\u0442\u0430, \u043e\u0442\u0432\u0435\u0442\u044c\u0442\u0435 \u043d\u0430 \u0432\u043e\u043f\u0440\u043e\u0441\u044b \u043e \u0441\u0442\u0430\u0431\u0438\u043b\u044c\u043d\u043e\u0441\u0442\u0438 \u0432\u0430\u0448\u0435\u0433\u043e \u0438\u043d\u0442\u0435\u0440\u043d\u0435\u0442-\u0441\u043e\u0435\u0434\u0438\u043d\u0435\u043d\u0438\u044f",
-      Q4:"4. \u041a\u0430\u043a\u043e\u0439 \u043f\u043e\u0441\u043b\u0435\u0434\u043d\u0438\u0439 \u0444\u0438\u043b\u044c\u043c \u0432\u044b \u043d\u0430\u0447\u0430\u043b\u0438 \u0441\u043c\u043e\u0442\u0440\u0435\u0442\u044c \u043d\u0430 \u00ab\u041a\u0438\u043d\u043e\u0436\u0443\u0435\u00bb?", PH_MOVIE:"\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435 \u0444\u0438\u043b\u044c\u043c\u0430",
-      Q5:"5. \u0414\u043e\u0441\u043c\u043e\u0442\u0440\u0435\u043b\u0438 \u043b\u0438 \u0432\u044b \u044d\u0442\u043e\u0442 \u0444\u0438\u043b\u044c\u043c \u0434\u043e \u043a\u043e\u043d\u0446\u0430?",
-      Q6:"6. \u0411\u044b\u043b\u0438 \u043b\u0438 \u0437\u0430\u0432\u0438\u0441\u0430\u043d\u0438\u044f \u0438\u043b\u0438 \u043f\u0440\u0435\u0440\u044b\u0432\u0430\u043d\u0438\u044f \u0432\u0438\u0434\u0435\u043e \u0432 \u043f\u0440\u043e\u0446\u0435\u0441\u0441\u0435 \u043f\u0440\u043e\u0441\u043c\u043e\u0442\u0440\u0430?",
-      Q6_OPT:["\u041d\u0438 \u0440\u0430\u0437\u0443","1 \u0440\u0430\u0437","2-3 \u0440\u0430\u0437\u0430","4 \u0440\u0430\u0437\u0430 \u0438 \u0431\u043e\u043b\u0435\u0435"],
-      Q7:"7. \u041e\u0446\u0435\u043d\u0438\u0442\u0435 \u0441\u0442\u0430\u0431\u0438\u043b\u044c\u043d\u043e\u0441\u0442\u044c \u0432\u0430\u0448\u0435\u0433\u043e \u0438\u043d\u0442\u0435\u0440\u043d\u0435\u0442-\u0441\u043e\u0435\u0434\u0438\u043d\u0435\u043d\u0438\u044f",
-      Q7_OPT:["\u043d\u0438\u0437\u043a\u043e\u0435","\u0441\u0440\u0435\u0434\u043d\u0435\u0435","\u0432\u044b\u0441\u043e\u043a\u043e\u0435"],
-      // Block 3
-      B3:"\u0411\u043b\u043e\u043a 3. \u0412\u043b\u0438\u044f\u043d\u0438\u0435 \u0440\u0435\u043a\u043b\u0430\u043c\u044b (H2)",
-      Q8:"8. \u0414\u0435\u043c\u043e\u043d\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043b\u0430\u0441\u044c \u043b\u0438 \u0440\u0435\u043a\u043b\u0430\u043c\u0430 \u0432\u043e \u0432\u0440\u0435\u043c\u044f \u043f\u0440\u043e\u0441\u043c\u043e\u0442\u0440\u0430 \u044d\u0442\u043e\u0433\u043e \u0444\u0438\u043b\u044c\u043c\u0430?",
-      Q9:"9. \u041d\u0430\u0441\u043a\u043e\u043b\u044c\u043a\u043e \u0440\u0435\u043a\u043b\u0430\u043c\u0430 \u0440\u0430\u0437\u0434\u0440\u0430\u0436\u0430\u043b\u0430 \u0432\u0430\u0441 (1\u20135)?",
-      Q10:"10. \u0418\u0437-\u0437\u0430 \u0440\u0435\u043a\u043b\u0430\u043c\u044b \u0432\u044b",
-      Q10_OPT:["\u041f\u0440\u0435\u0440\u0432\u0430\u043b\u0438 \u043f\u0440\u043e\u0441\u043c\u043e\u0442\u0440","\u0421\u043c\u043e\u0442\u0440\u0435\u043b\u0438, \u043d\u043e \u0441 \u0440\u0430\u0437\u0434\u0440\u0430\u0436\u0435\u043d\u0438\u0435\u043c","\u041f\u043e\u0447\u0442\u0438 \u043d\u0435 \u043e\u0431\u0440\u0430\u0442\u0438\u043b\u0438 \u0432\u043d\u0438\u043c\u0430\u043d\u0438\u044f","\u0414\u0440\u0443\u0433\u043e\u0435:"],
-      // Block 4
-      B4:"\u0411\u043b\u043e\u043a 4. \u041d\u0430\u043b\u0438\u0447\u0438\u0435 \u043f\u043e\u0434\u043f\u0438\u0441\u043a\u0438 \u043d\u0430 \u043a\u043e\u043d\u043a\u0443\u0440\u0435\u043d\u0442\u043e\u0432 (H3)",
-      Q11:"11. \u0415\u0441\u0442\u044c \u043b\u0438 \u0443 \u0432\u0430\u0441 \u043f\u043b\u0430\u0442\u043d\u0430\u044f \u043f\u043e\u0434\u043f\u0438\u0441\u043a\u0430 \u043d\u0430 \u0434\u0440\u0443\u0433\u0438\u0435 \u043e\u043d\u043b\u0430\u0439\u043d-\u043a\u0438\u043d\u043e\u0442\u0435\u0430\u0442\u0440\u044b?",
-      Q12:"12. \u0415\u0441\u043b\u0438 \u0434\u0430, \u0442\u043e \u043d\u0430 \u043a\u0430\u043a\u0438\u0435 \u0441\u0435\u0440\u0432\u0438\u0441\u044b? (\u043d\u0435\u0441\u043a\u043e\u043b\u044c\u043a\u043e \u0432\u0430\u0440\u0438\u0430\u043d\u0442\u043e\u0432)",
-      SVC:["\u0424\u0438\u043b\u044c\u043c\u0431\u043e\u043a\u0441","\u0418\u0432\u0438","\u041a\u0438\u043d\u043e\u043f\u043e\u0438\u0441\u043a","Netflix"], OTHER:"\u0414\u0440\u0443\u0433\u043e\u0435:", OTHER_PH:"\u0423\u043a\u0430\u0436\u0438\u0442\u0435",
-      Q13:"13. \u041a\u0430\u043a\u0438\u0435 \u043f\u0440\u0435\u0438\u043c\u0443\u0449\u0435\u0441\u0442\u0432\u0430 \u0434\u0430\u043d\u043d\u044b\u0445 \u0441\u0435\u0440\u0432\u0438\u0441\u043e\u0432 \u0432\u044b \u0432\u0438\u0434\u0438\u0442\u0435",
-      Q13_PH:"\u041e\u043f\u0438\u0448\u0438\u0442\u0435 \u043f\u0440\u0435\u0438\u043c\u0443\u0449\u0435\u0441\u0442\u0432\u0430",
-      Q14:"14. \u041a\u0430\u043a \u0447\u0430\u0441\u0442\u043e \u0432\u044b \u0441\u043c\u043e\u0442\u0440\u0438\u0442\u0435 \u0444\u0438\u043b\u044c\u043c\u044b \u043d\u0430 \u041a\u0438\u043d\u043e\u0436\u0443\u0435 \u043f\u043e \u0441\u0440\u0430\u0432\u043d\u0435\u043d\u0438\u044e \u0441 \u0434\u0440\u0443\u0433\u0438\u043c\u0438 \u0441\u0435\u0440\u0432\u0438\u0441\u0430\u043c\u0438?",
-      FREQ:["\u041f\u043e\u0447\u0442\u0438 \u0432\u0441\u0435\u0433\u0434\u0430 \u0432\u044b\u0431\u0438\u0440\u0430\u044e \u041a\u0438\u043d\u043e\u0436\u0443\u0439","\u041f\u0440\u0438\u043c\u0435\u0440\u043d\u043e \u043f\u043e\u0440\u043e\u0432\u043d\u0443","\u0427\u0430\u0449\u0435 \u043d\u0430 \u0434\u0440\u0443\u0433\u0438\u0445 \u0441\u0435\u0440\u0432\u0438\u0441\u0430\u0445","\u0422\u0440\u0443\u0434\u043d\u043e \u0441\u043a\u0430\u0437\u0430\u0442\u044c"],
-      // Block 5
-      B5:"\u0411\u043b\u043e\u043a 5. \u0426\u0435\u043d\u043d\u043e\u0441\u0442\u043d\u044b\u0435 \u043f\u0440\u0438\u043e\u0440\u0438\u0442\u0435\u0442\u044b \u0437\u0440\u0438\u0442\u0435\u043b\u0435\u0439 (\u041d4)",
-      NOTE5:"\u041e\u0446\u0435\u043d\u0438\u0442\u0435 \u043f\u043e \u0448\u043a\u0430\u043b\u0435 1\u20135, \u0433\u0434\u0435 1 \u2013 \u0441\u043e\u0432\u0441\u0435\u043c \u043d\u0435 \u0441\u043e\u0433\u043b\u0430\u0441\u0435\u043d, 5 \u2013 \u043f\u043e\u043b\u043d\u043e\u0441\u0442\u044c\u044e \u0441\u043e\u0433\u043b\u0430\u0441\u0435\u043d",
-      ST:[
-        "\u041a\u043e\u0433\u0434\u0430 \u0432\u043e\u0437\u043d\u0438\u043a\u0430\u044e\u0442 \u0441\u043b\u043e\u0436\u043d\u043e\u0441\u0442\u0438, \u044f \u043f\u0440\u0435\u0434\u043f\u043e\u0447\u0438\u0442\u0430\u044e \u043f\u0440\u043e\u0432\u0435\u0440\u0435\u043d\u043d\u044b\u0435 \u0440\u0435\u0448\u0435\u043d\u0438\u044f",
-        "\u041c\u043d\u0435 \u0432\u0430\u0436\u043d\u044b \u0441\u0435\u043c\u0435\u0439\u043d\u044b\u0435 \u0441\u0432\u044f\u0437\u0438 \u0438 \u043f\u043e\u0434\u0434\u0435\u0440\u0436\u043a\u0430 \u0431\u043b\u0438\u0437\u043a\u0438\u0445",
-        "\u041c\u043d\u0435 \u0431\u043b\u0438\u0436\u0435 \u043f\u043e\u0441\u0442\u0435\u043f\u0435\u043d\u043d\u044b\u0435 \u0438\u0437\u043c\u0435\u043d\u0435\u043d\u0438\u044f, \u0430 \u043d\u0435 \u0440\u0435\u0437\u043a\u0438\u0435 \u043f\u0435\u0440\u0435\u043c\u0435\u043d\u044b",
-        "\u042f \u0441\u0447\u0438\u0442\u0430\u044e, \u0447\u0442\u043e \u043b\u044e\u0434\u044f\u043c \u043f\u043e\u043b\u0435\u0437\u043d\u043e \u0438\u043c\u0435\u0442\u044c \u043e\u0431\u0449\u0438\u0435 \u043f\u0440\u0430\u0432\u0438\u043b\u0430 \u0438 \u043e\u0440\u0438\u0435\u043d\u0442\u0438\u0440\u044b",
-        "\u0412 \u0432\u043e\u043f\u0440\u043e\u0441\u0430\u0445 \u043a\u0443\u043b\u044c\u0442\u0443\u0440\u044b \u0438 \u043d\u0440\u0430\u0432\u0441\u0442\u0432\u0435\u043d\u043d\u043e\u0441\u0442\u0438 \u0440\u0435\u0434\u043a\u043e \u0431\u044b\u0432\u0430\u0435\u0442 \u043e\u0434\u0438\u043d \u043f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u044b\u0439 \u043e\u0442\u0432\u0435\u0442",
-        "\u041c\u043d\u0435 \u043d\u0440\u0430\u0432\u0438\u0442\u0441\u044f, \u043a\u043e\u0433\u0434\u0430 \u044f \u043c\u043e\u0433\u0443 \u043f\u0440\u0438\u043d\u0438\u043c\u0430\u0442\u044c \u0440\u0435\u0448\u0435\u043d\u0438\u044f \u0441\u0430\u043c\u043e\u0441\u0442\u043e\u044f\u0442\u0435\u043b\u044c\u043d\u043e",
-        "\u0415\u0441\u043b\u0438 \u043f\u0440\u0430\u0432\u0438\u043b\u0430 \u0443\u0441\u0442\u0430\u0440\u0435\u043b\u0438, \u0438\u0445 \u043d\u0443\u0436\u043d\u043e \u043f\u0435\u0440\u0435\u0441\u043c\u0430\u0442\u0440\u0438\u0432\u0430\u0442\u044c",
-        "\u041c\u043d\u0435 \u0432\u0430\u0436\u043d\u043e \u043f\u0440\u043e\u0431\u043e\u0432\u0430\u0442\u044c \u043d\u043e\u0432\u043e\u0435 \u0438 \u0440\u0430\u0441\u0448\u0438\u0440\u044f\u0442\u044c \u043a\u0440\u0443\u0433\u043e\u0437\u043e\u0440",
-        "\u0414\u043b\u044f \u043c\u0435\u043d\u044f \u0432\u0430\u0436\u043d\u0435\u0435 \u0441\u0442\u0430\u0431\u0438\u043b\u044c\u043d\u043e\u0441\u0442\u044c, \u0447\u0435\u043c \u0440\u0438\u0441\u043a \u0440\u0430\u0434\u0438 \u043d\u043e\u0432\u044b\u0445 \u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e\u0441\u0442\u0435\u0439",
-        "\u041f\u0440\u0430\u043a\u0442\u0438\u0447\u043d\u044b\u0439 \u043f\u043e\u0434\u0445\u043e\u0434 \u043e\u0431\u044b\u0447\u043d\u043e \u043d\u0430\u0434\u0451\u0436\u043d\u0435\u0435 \u0442\u0432\u043e\u0440\u0447\u0435\u0441\u043a\u043e\u0433\u043e",
-        "\u0413\u043b\u0430\u0432\u043d\u043e\u0435 \u2014 \u0438\u043c\u0435\u0442\u044c \u0442\u0432\u0451\u0440\u0434\u044b\u0439 \u0444\u0443\u043d\u0434\u0430\u043c\u0435\u043d\u0442 \u0432 \u0436\u0438\u0437\u043d\u0438",
-        "\u041c\u043d\u0435 \u0432\u0430\u0436\u043d\u043e \u0447\u0443\u0432\u0441\u0442\u0432\u043e\u0432\u0430\u0442\u044c \u0441\u0432\u043e\u0431\u043e\u0434\u0443 \u0432\u044b\u0431\u043e\u0440\u0430",
-        "\u042f \u043f\u0440\u0435\u0434\u043f\u043e\u0447\u0438\u0442\u0430\u044e \u0438\u0441\u0442\u043e\u0440\u0438\u0438 \u043e \u0434\u043e\u043b\u0433\u0435, \u0441\u0435\u043c\u044c\u0435 \u0438 \u043f\u0440\u0435\u043e\u0434\u043e\u043b\u0435\u043d\u0438\u0438 \u0442\u0440\u0443\u0434\u043d\u043e\u0441\u0442\u0435\u0439",
-        "\u041c\u043d\u0435 \u0432\u0430\u0436\u043d\u043e \u0441\u043e\u0431\u043b\u044e\u0434\u0430\u0442\u044c \u043f\u0440\u0438\u0432\u044b\u0447\u043d\u044b\u0435 \u0442\u0440\u0430\u0434\u0438\u0446\u0438\u0438 \u0434\u0430\u0436\u0435 \u0432 \u043f\u043e\u0432\u0441\u0435\u0434\u043d\u0435\u0432\u043d\u043e\u0439 \u0436\u0438\u0437\u043d\u0438",
-        "\u042f \u0441\u0447\u0438\u0442\u0430\u044e \u0432\u0430\u0436\u043d\u044b\u043c \u043f\u043e\u043c\u043e\u0433\u0430\u0442\u044c \u0434\u0440\u0443\u0433\u0438\u043c, \u0434\u0430\u0436\u0435 \u0435\u0441\u043b\u0438 \u044d\u0442\u043e \u0442\u0440\u0435\u0431\u0443\u0435\u0442 \u043b\u0438\u0447\u043d\u044b\u0445 \u0436\u0435\u0440\u0442\u0432",
-        "\u042f \u043f\u0440\u0435\u0434\u043f\u043e\u0447\u0438\u0442\u0430\u044e \u043f\u0440\u0438\u043d\u0438\u043c\u0430\u0442\u044c \u0440\u0435\u0448\u0435\u043d\u0438\u044f \u043d\u0430 \u043e\u0441\u043d\u043e\u0432\u0435 \u0441\u043e\u0431\u0441\u0442\u0432\u0435\u043d\u043d\u043e\u0433\u043e \u043e\u043f\u044b\u0442\u0430, \u0430 \u043d\u0435 \u0441\u043e\u0432\u0435\u0442\u043e\u0432 \u043e\u043a\u0440\u0443\u0436\u0430\u044e\u0449\u0438\u0445",
-        "\u041c\u043d\u0435 \u0438\u043d\u0442\u0435\u0440\u0435\u0441\u043d\u044b \u0444\u0438\u043b\u044c\u043c\u044b, \u043a\u043e\u0442\u043e\u0440\u044b\u0435 \u043e\u0442\u0440\u0430\u0436\u0430\u044e\u0442 \u0441\u043e\u0432\u0440\u0435\u043c\u0435\u043d\u043d\u044b\u0435 \u043c\u0438\u0440\u043e\u0432\u044b\u0435 \u043f\u0440\u043e\u0431\u043b\u0435\u043c\u044b (\u044d\u043a\u043e\u043b\u043e\u0433\u0438\u044f, \u0440\u0430\u0432\u0435\u043d\u0441\u0442\u0432\u043e, \u0441\u0432\u043e\u0431\u043e\u0434\u0430 \u043b\u0438\u0447\u043d\u043e\u0441\u0442\u0438)",
-        "\u042f \u043b\u044e\u0431\u043b\u044e \u043a\u0438\u043d\u043e\u043c\u0430\u0442\u043e\u0433\u0440\u0430\u0444, \u043a\u043e\u0442\u043e\u0440\u044b\u0439 \u0437\u0430\u0441\u0442\u0430\u0432\u043b\u044f\u0435\u0442 \u0437\u0430\u0434\u0443\u043c\u0430\u0442\u044c\u0441\u044f",
-        "\u041c\u043d\u0435 \u043d\u0440\u0430\u0432\u044f\u0442\u0441\u044f \u0444\u0438\u043b\u044c\u043c\u044b, \u0432 \u043a\u043e\u0442\u043e\u0440\u044b\u0445 \u0440\u0435\u0436\u0451\u0441\u0441\u0451\u0440\u044b \u044d\u043a\u0441\u043f\u0435\u0440\u0438\u043c\u0435\u043d\u0442\u0438\u0440\u0443\u044e\u0442 \u0441 \u0444\u043e\u0440\u043c\u043e\u0439 \u0438 \u043f\u043e\u0434\u0430\u0447\u0435\u0439",
-        "\u041c\u043d\u0435 \u0438\u043d\u0442\u0435\u0440\u0435\u0441\u043d\u043e \u043f\u0440\u043e\u0431\u043e\u0432\u0430\u0442\u044c \u043d\u043e\u0432\u044b\u0435 \u0432\u0438\u0434\u044b \u0438\u0441\u043a\u0443\u0441\u0441\u0442\u0432\u0430 \u0438 \u043d\u0435\u043e\u0431\u044b\u0447\u043d\u044b\u0435 \u0436\u0430\u043d\u0440\u044b \u043a\u0438\u043d\u043e"
+      H: "АНКЕТА",
+      INTRO: "Уважаемые участники! Эта анкета создана, чтобы понять, почему зрители онлайн-кинотеатра «Киножуй» иногда не досматривают фильмы до конца. Ваши ответы будут анонимными, и результаты будут использоваться только в исследовательских целях. Спасибо за ваше участие! Опрос займет не более 8 минут.",
+      SEND: "Отправить (демо)",
+      RESET: "Сбросить",
+
+      B1_TITLE: "Блок 1. Общие данные",
+      B1_NOTE: "Пожалуйста, укажите основную информацию о себе.",
+      Q1: "1. Укажите ваш пол (выберите один вариант ответа)",
+      Q1_OPTIONS: [
+        { label: "Мужской", value: "male" },
+        { label: "Женский", value: "female" }
       ],
-      // Block 6
-      B6:"\u0411\u043b\u043e\u043a 6. \u0420\u0435\u0437\u0443\u043b\u044c\u0442\u0430\u0442\u044b \u0430\u043d\u043a\u0435\u0442\u044b",
-      R_NOTE:"\u0421\u043f\u0430\u0441\u0438\u0431\u043e \u0437\u0430 \u0443\u0447\u0430\u0441\u0442\u0438\u0435! \u0412\u0430\u0448\u0438 \u043e\u0442\u0432\u0435\u0442\u044b \u043f\u043e\u043c\u043e\u0433\u0443\u0442 \u043d\u0430\u043c \u0441\u0434\u0435\u043b\u0430\u0442\u044c \u00ab\u041a\u0438\u043d\u043e\u0436\u0443\u0439\u00bb \u043b\u0443\u0447\u0448\u0435!",
-      R_Q:"\u0425\u043e\u0442\u0438\u0442\u0435 \u043f\u043e\u043b\u0443\u0447\u0438\u0442\u044c \u0440\u0435\u0437\u0443\u043b\u044c\u0442\u0430\u0442\u044b \u0438\u0441\u0441\u043b\u0435\u0434\u043e\u0432\u0430\u043d\u0438\u044f?",
-      R_OPT_Y:"\u0414\u0430, \u0445\u043e\u0447\u0443 \u2014 \u0443\u0437\u043d\u0430\u0439\u0442\u0435 \u0440\u0435\u0437\u0443\u043b\u044c\u0442\u0430\u0442 \u043f\u0440\u044f\u043c\u043e \u0441\u0435\u0439\u0447\u0430\u0441 \u0438\u043b\u0438 \u0443\u043a\u0430\u0436\u0438\u0442\u0435 e-mail (\u043d\u0435\u043e\u0431\u044f\u0437\u0430\u0442\u0435\u043b\u044c\u043d\u043e)",
-      R_EMAIL_PH:"\u0412\u0430\u0448 e-mail (\u043d\u0435\u043e\u0431\u044f\u0437\u0430\u0442\u0435\u043b\u044c\u043d\u043e)",
-      R_OPT_N:"\u041d\u0435\u0442, \u043f\u0440\u043e\u0441\u0442\u043e \u0437\u0430\u0432\u0435\u0440\u0448\u0443 \u043e\u043f\u0440\u043e\u0441"
+      Q2: "2. Укажите ваш возраст (выберите один вариант ответа)",
+      Q2_OPTIONS: [
+        { label: "меньше 18-ти", value: "under18" },
+        { label: "18-25 лет", value: "18_25" },
+        { label: "26-35 лет", value: "26_35" },
+        { label: "35-45 лет", value: "35_45" },
+        { label: "45-60 лет", value: "45_60" },
+        { label: "60+", value: "60_plus" }
+      ],
+      Q3: "3. Смотрели ли вы фильмы на платформе «Киножуй» за последний месяц? (выберите один вариант ответа)",
+      Q3_OPTIONS: [
+        { label: "Да", value: "yes" },
+        { label: "Нет (если «Нет» – завершить опрос)", value: "no" }
+      ],
+
+      B2_TITLE: "Блок 2. Стабильность интернет-соединения (H1)",
+      B2_NOTE: "Пожалуйста, ответьте на вопросы о стабильности вашего интернет-соединения.",
+      Q4: "4. Какой последний фильм вы начали смотреть на «Киножуе»? (укажите название фильма)",
+      Q4_PH: "Название фильма",
+      Q5: "5. Досмотрели ли вы этот фильм до конца? (выберите один вариант ответа)",
+      Q5_OPTIONS: [
+        { label: "Да", value: "yes" },
+        { label: "Нет", value: "no" }
+      ],
+      Q6: "6. Были ли зависания или прерывания видео в процессе просмотра? (выберите один вариант ответа)",
+      Q6_OPTIONS: [
+        { label: "Ни разу", value: "0" },
+        { label: "1 раз", value: "1" },
+        { label: "2-3 раза", value: "2" },
+        { label: "4 раза и более", value: "3" }
+      ],
+      Q7: "7. Оцените стабильность вашего интернет-соединения (выберите один вариант ответа)",
+      Q7_OPTIONS: [
+        { label: "низкое", value: "low" },
+        { label: "среднее", value: "medium" },
+        { label: "высокое", value: "high" }
+      ],
+
+      B3_TITLE: "Блок 3. Влияние рекламы на общие впечатления от просмотра фильма (H2)",
+      B3_NOTE: "Пожалуйста, расскажите о влиянии рекламы на общие впечатления от просмотра фильма.",
+      Q8: "8. Демонстрировалась ли реклама во время просмотра этого фильма? (выберите один вариант ответа)",
+      Q8_OPTIONS: [
+        { label: "Да", value: "yes" },
+        { label: "Нет", value: "no" },
+        { label: "Не помню", value: "na" }
+      ],
+      Q9: "9. Насколько реклама раздражала вас во время просмотра? (отметьте наиболее близкое значение, где 1 – совсем не раздражала, а 5 – очень раздражала)",
+      Q10: "10. Из-за рекламы вы (выберите один вариант ответа):",
+      Q10_OPTIONS: [
+        { label: "Прервали просмотр", value: "stopped" },
+        { label: "Смотрели, но с раздражением", value: "irritated" },
+        { label: "Почти не обратили внимания", value: "ignored" },
+        { label: "Другое:", value: "other", extraInput: { name: "adsImpactOther", placeholder: "Укажите" } }
+      ],
+
+      B4_TITLE: "Блок 4. Наличие подписки на конкурентов (H3)",
+      B4_NOTE: "Пожалуйста, расскажите о наличии подписки на конкурентов (другие онлайн-кинотеатры).",
+      Q11: "11. Есть ли у вас платная подписка на другие онлайн-кинотеатры? (выберите один вариант ответа)",
+      Q11_OPTIONS: [
+        { label: "Да", value: "yes" },
+        { label: "Нет", value: "no" }
+      ],
+      Q12: "12. Если да, то на какие сервисы? (выберите несколько вариантов ответа)",
+      Q12_OPTIONS: [
+        { label: "Фильмбокс", value: "filmbox" },
+        { label: "Иви", value: "ivi" },
+        { label: "Кинопоиск", value: "kinopoisk" },
+        { label: "Netflix", value: "netflix" }
+      ],
+      Q12_OTHER_LABEL: "Другое (укажите)",
+      Q13: "13. Какие преимущества данных сервисов вы видите (укажите преимущества сервисов)",
+      Q13_PH: "Укажите преимущества сервисов",
+      Q14: "14. Как часто вы смотрите фильмы на Киножуе по сравнению с другими сервисами? (выберите один вариант ответа)",
+      Q14_OPTIONS: [
+        { label: "Почти всегда выбираю Киножуй", value: "mostly_kinozuy" },
+        { label: "Примерно поровну", value: "equal" },
+        { label: "Чаще на других сервисах", value: "other_services" },
+        { label: "Трудно сказать", value: "hard_to_say" }
+      ],
+
+      B5_TITLE: "Блок 5. Отношение зрителей к сценам антисоциального поведения в кино",
+      B5_NOTE: "Опрос поможет нам подобрать фильмы под ваши предпочтения. Пожалуйста, определите своё отношение к утверждениям ниже, где 1 – совсем не согласен, 5 – полностью согласен (отметьте наиболее близкий вам вариант).",
+      B5_INTOL_TITLE: "Нетерпимость по отношению к сценам антисоциального поведения в кино",
+      B5_INTOL_STATEMENTS: [
+        "15. Если персонаж унижает других ради собственной выгоды, мой интерес к фильму падает",
+        "16. Манипуляции и психологическое давление со стороны героя вызывают у меня отторжение к фильму",
+        "17. Когда герой разрушает важные для других отношения, мне становится неприятно смотреть фильм",
+        "18. Демонстрация бессмысленной жестокости снижает желание продолжать просмотр фильма",
+        "19. Мне неприятно смотреть сцены, где кто-то эксплуатирует доверие других",
+        "20. Если персонаж использует друзей/родных как инструмент достижения своих целей, фильм начинает меня раздражать",
+        "21. Когда в фильме никто не несёт ответственность за причинённый другим персонажам вред, я теряю интерес к кино",
+        "22. Сцены социальной несправедливости (унижение слабых, злоупотребление властью) портят впечатление от просмотра"
+      ],
+      B5_TOL_TITLE: "Толерантное отношение к сценам антисоциального поведения в кино",
+      B5_TOL_STATEMENTS: [
+        "23. Если герой нарушает социальные нормы ради своей цели, я могу поддержать его позицию",
+        "24. Меня не беспокоит, когда персонаж использует других, – главное, чтобы сюжет был интересным",
+        "25. Сцены жесткости добавляют экспрессию и экшн – это может быть частью хорошего кино",
+        "26. Если персонаж обходит систему, я отношусь к этому с симпатией",
+        "27. Мне нравятся сильные герои, которые ставят свои цели выше чужих чувств",
+        "28. Хаотичное и рискованное поведение героев делает фильм более живым",
+        "29. Даже негативные персонажи могут быть привлекательными, если они харизматичны",
+        "30. Когда персонажи действуют эгоистично, это выглядит честно"
+      ],
+
+      B6_TITLE: "Блок 6. Результаты анкеты",
+      B6_NOTE: "Спасибо за участие! Ваши ответы помогут нам сделать «Киножуй» лучше!",
+      R_Q: "Хотите получить результаты анкеты?",
+      R_OPT_Y: "Да, хочу – узнайте результат прямо сейчас или укажите e-mail (необязательно):",
+      R_EMAIL_PH: "Укажите e-mail (необязательно)",
+      R_OPT_N: "Нет, просто завершу опрос",
+      THANKS: "Спасибо! Это демо: отправка отключена."
     };
 
-    function el(tag, props={}, ...children){ const e=document.createElement(tag); Object.assign(e, props); children.flat().forEach(c=>{ if(c==null) return; if(typeof c==='string') e.appendChild(document.createTextNode(c)); else e.appendChild(c); }); return e; }
-    function fieldset(title){ const fs=el('fieldset',{className:'q'}); fs.appendChild(el('div',{className:'q-title'}, title)); return fs; }
-    function radioGroup(name, options){ return options.map(([label,val])=> el('label',{}, el('input',{type:'radio',name,value:val}), ' '+label)); }
-    function checkboxGroup(name, options){ return options.map(([label,val])=> el('label',{}, el('input',{type:'checkbox',name,value:val}), ' '+label)); }
-    function scale(name){ const g=el('div',{className:'scale'}); for(let i=1;i<=5;i++){ g.appendChild(el('label',{}, el('input',{type:'radio',name,value:String(i)}), ' '+String(i))); } return g; }
+    function el(tag, props = {}, ...children) {
+      const element = document.createElement(tag);
+      Object.assign(element, props);
+      children.flat().forEach(child => {
+        if (child == null) return;
+        if (typeof child === "string") {
+          element.appendChild(document.createTextNode(child));
+        } else {
+          element.appendChild(child);
+        }
+      });
+      return element;
+    }
 
-    function render(){
-      document.getElementById('H').textContent = u(STR.H);
-      document.getElementById('INTRO').textContent = u(STR.INTRO);
-      document.getElementById('send').textContent = u(STR.SEND);
-      document.getElementById('reset').textContent = u(STR.RESET);
-      const app = document.getElementById('app');
-      app.innerHTML='';
+    function createFieldset(title) {
+      const fs = el("fieldset", { className: "q" });
+      fs.appendChild(el("div", { className: "q-title" }, title));
+      return fs;
+    }
 
-      // Block 1
-      app.appendChild(el('h2',{}, u(STR.B1)));
-      app.appendChild(el('p',{className:'note'}, u(STR.B1_NOTE)));
-      let fs = fieldset(u(STR.Q1));
-      radioGroup('gender', [[u(STR.male),'male'],[u(STR.female),'female']]).forEach(l=>fs.appendChild(l));
+    function radioGroup(name, options) {
+      return options.map(option => {
+        const label = el("label");
+        label.appendChild(el("input", { type: "radio", name, value: option.value }));
+        label.append(" " + option.label);
+        if (option.extraInput) {
+          label.append(" ");
+          label.appendChild(
+            el("input", {
+              type: "text",
+              name: option.extraInput.name,
+              placeholder: option.extraInput.placeholder
+            })
+          );
+        }
+        return label;
+      });
+    }
+
+    function checkboxGroup(name, options) {
+      return options.map(option => {
+        const label = el("label");
+        label.appendChild(el("input", { type: "checkbox", name, value: option.value }));
+        label.append(" " + option.label);
+        return label;
+      });
+    }
+
+    function scale(name) {
+      const group = el("div", { className: "scale" });
+      for (let i = 1; i <= 5; i += 1) {
+        const label = el("label");
+        label.appendChild(el("input", { type: "radio", name, value: String(i) }));
+        label.append(" " + i);
+        group.appendChild(label);
+      }
+      return group;
+    }
+
+    function render() {
+      document.getElementById("H").textContent = STR.H;
+      document.getElementById("INTRO").textContent = STR.INTRO;
+      document.getElementById("send").textContent = STR.SEND;
+      document.getElementById("reset").textContent = STR.RESET;
+
+      const app = document.getElementById("app");
+      app.innerHTML = "";
+
+      app.appendChild(el("h2", {}, STR.B1_TITLE));
+      app.appendChild(el("p", { className: "note" }, STR.B1_NOTE));
+
+      let fs = createFieldset(STR.Q1);
+      radioGroup("gender", STR.Q1_OPTIONS).forEach(node => fs.appendChild(node));
       app.appendChild(fs);
 
-      fs = fieldset(u(STR.Q2));
-      STR.Q2_OPT.forEach((t,i)=>fs.appendChild(el('label',{}, el('input',{type:'radio',name:'age',value:String(i)}),' '+u(t))));
+      fs = createFieldset(STR.Q2);
+      radioGroup("age", STR.Q2_OPTIONS).forEach(node => fs.appendChild(node));
       app.appendChild(fs);
 
-      fs = fieldset(u(STR.Q3));
-      radioGroup('seenLastMonth', [[u(STR.yes),'yes'],[u(STR.no),'no']]).forEach(l=>fs.appendChild(l));
+      fs = createFieldset(STR.Q3);
+      radioGroup("seenLastMonth", STR.Q3_OPTIONS).forEach(node => fs.appendChild(node));
       app.appendChild(fs);
 
-      app.appendChild(el('div',{className:'hr'}));
+      app.appendChild(el("div", { className: "hr" }));
 
-      // Block 2
-      app.appendChild(el('h2',{}, u(STR.B2)));
-      app.appendChild(el('p',{className:'note'}, u(STR.B2_NOTE)));
+      app.appendChild(el("h2", {}, STR.B2_TITLE));
+      app.appendChild(el("p", { className: "note" }, STR.B2_NOTE));
 
-      let q = fieldset(u(STR.Q4));
-      q.appendChild(el('input',{type:'text',name:'lastMovie',placeholder:u(STR.PH_MOVIE)}));
+      let q = createFieldset(STR.Q4);
+      q.appendChild(el("input", { type: "text", name: "lastMovie", placeholder: STR.Q4_PH }));
       app.appendChild(q);
 
-      fs = fieldset(u(STR.Q5));
-      radioGroup('finished', [[u(STR.yes),'yes'],[u(STR.no),'no']]).forEach(l=>fs.appendChild(l));
+      fs = createFieldset(STR.Q5);
+      radioGroup("finished", STR.Q5_OPTIONS).forEach(node => fs.appendChild(node));
       app.appendChild(fs);
 
-      fs = fieldset(u(STR.Q6));
-      STR.Q6_OPT.forEach((t,i)=>fs.appendChild(el('label',{}, el('input',{type:'radio',name:'lags',value:String(i)}),' '+u(t))));
+      fs = createFieldset(STR.Q6);
+      radioGroup("lags", STR.Q6_OPTIONS).forEach(node => fs.appendChild(node));
       app.appendChild(fs);
 
-      fs = fieldset(u(STR.Q7));
-      STR.Q7_OPT.forEach((t,i)=>fs.appendChild(el('label',{}, el('input',{type:'radio',name:'stability',value:String(i)}),' '+u(t))));
+      fs = createFieldset(STR.Q7);
+      radioGroup("stability", STR.Q7_OPTIONS).forEach(node => fs.appendChild(node));
       app.appendChild(fs);
 
-      app.appendChild(el('div',{className:'hr'}));
+      app.appendChild(el("div", { className: "hr" }));
 
-      // Block 3
-      app.appendChild(el('h2',{}, u(STR.B3)));
+      app.appendChild(el("h2", {}, STR.B3_TITLE));
+      app.appendChild(el("p", { className: "note" }, STR.B3_NOTE));
 
-      fs = fieldset(u(STR.Q8));
-      radioGroup('ads', [[u(STR.yes),'yes'],[u(STR.no),'no'],[u('\\u041d\\u0435 \\u043f\\u043e\\u043c\\u043d\\u044e'),'na']]).forEach(l=>fs.appendChild(l));
+      fs = createFieldset(STR.Q8);
+      radioGroup("ads", STR.Q8_OPTIONS).forEach(node => fs.appendChild(node));
       app.appendChild(fs);
 
-      fs = fieldset(u(STR.Q9));
-      fs.appendChild(scale('adsAnnoy'));
+      fs = createFieldset(STR.Q9);
+      fs.appendChild(scale("adsAnnoy"));
       app.appendChild(fs);
 
-      fs = fieldset(u(STR.Q10));
-      STR.Q10_OPT.forEach((t,i)=>{
-        const lb = el('label',{}); const r = el('input',{type:'radio',name:'adsImpact',value:String(i)}); lb.appendChild(r); lb.append(' '+u(t)); fs.appendChild(lb);
-      });
-      // other text
-      const lbOther = el('label',{});
-      lbOther.appendChild(el('input',{type:'radio',name:'adsImpact',value:'other'}));
-      lbOther.append(' '+u(STR.Q10_OPT[3])+' ');
-      lbOther.appendChild(el('input',{type:'text',name:'adsImpactOther',placeholder:u('\\u0423\\u0442\\u043e\\u0447\\u043d\\u0438\\u0442\\u0435')}));
-      fs.appendChild(lbOther);
+      fs = createFieldset(STR.Q10);
+      radioGroup("adsImpact", STR.Q10_OPTIONS).forEach(node => fs.appendChild(node));
       app.appendChild(fs);
 
-      app.appendChild(el('div',{className:'hr'}));
+      app.appendChild(el("div", { className: "hr" }));
 
-      // Block 4
-      app.appendChild(el('h2',{}, u(STR.B4)));
+      app.appendChild(el("h2", {}, STR.B4_TITLE));
+      app.appendChild(el("p", { className: "note" }, STR.B4_NOTE));
 
-      fs = fieldset(u(STR.Q11));
-      radioGroup('otherSubs', [[u(STR.yes),'yes'],[u(STR.no),'no']]).forEach(l=>fs.appendChild(l));
+      fs = createFieldset(STR.Q11);
+      radioGroup("otherSubs", STR.Q11_OPTIONS).forEach(node => fs.appendChild(node));
       app.appendChild(fs);
 
-      fs = fieldset(u(STR.Q12));
-      checkboxGroup('svc', STR.SVC.map(t=>[u(t), u(t)])).forEach(l=>fs.appendChild(l));
-      const lbO = el('label',{}); lbO.append(u(STR.OTHER)+' '); lbO.appendChild(el('input',{type:'text',name:'svcOther',placeholder:u(STR.OTHER_PH)})); fs.appendChild(lbO);
+      fs = createFieldset(STR.Q12);
+      checkboxGroup("svc", STR.Q12_OPTIONS).forEach(node => fs.appendChild(node));
+      const otherLabel = el("label");
+      otherLabel.append(STR.Q12_OTHER_LABEL);
+      otherLabel.appendChild(
+        el("input", { type: "text", name: "svcOther", placeholder: "Укажите" })
+      );
+      fs.appendChild(otherLabel);
       app.appendChild(fs);
 
-      q = fieldset(u(STR.Q13));
-      q.appendChild(el('textarea',{name:'svcBenefits',placeholder:u(STR.Q13_PH)}));
+      q = createFieldset(STR.Q13);
+      q.appendChild(el("textarea", { name: "svcBenefits", placeholder: STR.Q13_PH }));
       app.appendChild(q);
 
-      fs = fieldset(u(STR.Q14));
-      STR.FREQ.forEach((t,i)=>fs.appendChild(el('label',{}, el('input',{type:'radio',name:'freq',value:String(i)}),' '+u(t))));
+      fs = createFieldset(STR.Q14);
+      radioGroup("freq", STR.Q14_OPTIONS).forEach(node => fs.appendChild(node));
       app.appendChild(fs);
 
-      app.appendChild(el('div',{className:'hr'}));
+      app.appendChild(el("div", { className: "hr" }));
 
-      // Block 5 (values statements 1-20)
-      app.appendChild(el('h2',{}, u(STR.B5)));
-      app.appendChild(el('p',{className:'note'}, u(STR.NOTE5)));
-      STR.ST.forEach((st, idx)=>{
-        const f = fieldset(u(st)); f.appendChild(scale('v'+(idx+1))); app.appendChild(f);
+      app.appendChild(el("h2", {}, STR.B5_TITLE));
+      app.appendChild(el("p", { className: "note" }, STR.B5_NOTE));
+      app.appendChild(el("h3", {}, STR.B5_INTOL_TITLE));
+      STR.B5_INTOL_STATEMENTS.forEach((statement, idx) => {
+        const field = createFieldset(statement);
+        field.appendChild(scale("v_intol_" + (idx + 15)));
+        app.appendChild(field);
       });
 
-      app.appendChild(el('div',{className:'hr'}));
+      app.appendChild(el("h3", {}, STR.B5_TOL_TITLE));
+      STR.B5_TOL_STATEMENTS.forEach((statement, idx) => {
+        const field = createFieldset(statement);
+        field.appendChild(scale("v_tol_" + (idx + 23)));
+        app.appendChild(field);
+      });
 
-      // Block 6
-      app.appendChild(el('h2',{}, u(STR.B6)));
-      app.appendChild(el('p',{className:'note'}, u(STR.R_NOTE)));
-      fs = fieldset(u(STR.R_Q));
-      const lY = el('label',{}); lY.appendChild(el('input',{type:'radio',name:'getResults',value:'yes'})); lY.append(' '+u(STR.R_OPT_Y)); fs.appendChild(lY);
-      fs.appendChild(el('div',{}, el('input',{type:'email',name:'email',placeholder:u(STR.R_EMAIL_PH)})));
-      const lN = el('label',{}); lN.appendChild(el('input',{type:'radio',name:'getResults',value:'no'})); lN.append(' '+u(STR.R_OPT_N)); fs.appendChild(lN);
+      app.appendChild(el("div", { className: "hr" }));
+
+      app.appendChild(el("h2", {}, STR.B6_TITLE));
+      app.appendChild(el("p", { className: "note" }, STR.B6_NOTE));
+
+      fs = createFieldset(STR.R_Q);
+      const yesLabel = el("label");
+      yesLabel.appendChild(el("input", { type: "radio", name: "getResults", value: "yes" }));
+      yesLabel.append(" " + STR.R_OPT_Y);
+      fs.appendChild(yesLabel);
+      fs.appendChild(
+        el("div", {}, el("input", { type: "email", name: "email", placeholder: STR.R_EMAIL_PH }))
+      );
+      const noLabel = el("label");
+      noLabel.appendChild(el("input", { type: "radio", name: "getResults", value: "no" }));
+      noLabel.append(" " + STR.R_OPT_N);
+      fs.appendChild(noLabel);
       app.appendChild(fs);
 
-      // Buttons
-      document.getElementById('send').onclick = ()=> alert(u('\u0421\u043f\u0430\u0441\u0438\u0431\u043e! \u042d\u0442\u043e \u0434\u0435\u043c\u043e: \u043e\u0442\u043f\u0440\u0430\u0432\u043a\u0430 \u0432\u044b\u043a\u043b\u044e\u0447\u0435\u043d\u0430.'));
-      document.getElementById('reset').onclick = ()=> location.reload();
+      document.getElementById("send").onclick = () => alert(STR.THANKS);
+      document.getElementById("reset").onclick = () => window.location.reload();
     }
 
     render();
   </script>
 </body>
 </html>
+
